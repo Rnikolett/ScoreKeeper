@@ -1,0 +1,51 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="ScoreKeeper.Views.AddGameView">
+
+  <StackPanel Background="white">
+    <Grid Background="White" 
+          Height="40"
+          ColumnDefinitions="*, *, *">
+      <TextBlock Grid.Column="0"
+                 HorizontalAlignment="Left"
+                 VerticalAlignment="Center"> Játékosok:  </TextBlock>
+      <TextBox Grid.Column="0" Width=""></TextBox>
+      
+      <TextBlock Grid.Column="1"
+                 HorizontalAlignment="Left"
+                 VerticalAlignment="Center"> Körök száma: </TextBlock>
+      <NumericUpDown Grid.Column="1"
+                     HorizontalAlignment="Right"
+                     Width="140"
+                     Minimum="1"
+                     FormatString="0"
+                     Margin="0 0 10 0"></NumericUpDown>
+      
+      <TextBlock Grid.Column="2"
+                 HorizontalAlignment="Left"
+                 VerticalAlignment="Center"> Pontozás típusa: </TextBlock>
+    </Grid>
+    <Button>create</Button>
+    
+    <DataGrid x:Name="Game"
+              IsReadOnly="False"
+              ItemsSource="{Binding Rounds}"
+              GridLinesVisibility="All"
+              AutoGenerateColumns="False"
+              BorderThickness="1"
+              BorderBrush="Black"
+              Background="White"
+              Width="600"
+              HorizontalAlignment="Center"
+              CanUserReorderColumns="False"
+              CanUserSortColumns="False"
+              >
+      <DataGrid.Columns >
+        <DataGridTextColumn IsReadOnly="True" Header="Round" Binding="{Binding RoundIndex}"></DataGridTextColumn>
+      </DataGrid.Columns>
+    </DataGrid>
+  </StackPanel>
+</UserControl>

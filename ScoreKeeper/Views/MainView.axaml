@@ -1,0 +1,63 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:ScoreKeeper.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="ScoreKeeper.Views.MainView"
+             x:DataType="vm:MainViewModel"
+             x:CompileBindings="True">
+<!--
+  <Design.DataContext>
+    <vm:MainViewModel />
+  </Design.DataContext>
+-->
+  
+    <SplitView IsPaneOpen = "{Binding IsPaneOpen}"
+               OpenPaneLength="300"
+               CompactPaneLength="40"
+               DisplayMode="CompactInline"
+               PaneBackground="Gray">
+
+      <SplitView.Pane>
+        <StackPanel Spacing="5"
+                    Margin="5">
+          <Button Command="{Binding TriggerPaneCommand}">
+            <PathIcon Data="{StaticResource LineHorizontal3Regular}"/>
+          </Button>
+          
+          <ListBox ItemsSource="{Binding Items}" 
+                   SelectedItem="{Binding SelectedListItem}"
+                   Opacity="{Binding IsVisible}">
+            <ListBox.ItemTemplate>
+            <DataTemplate DataType="{x:Type vm:ListItemTemplate}">
+              <StackPanel Spacing="15"
+                          Orientation="Horizontal">
+                <TextBlock Text="{Binding Label}"/>
+                
+              </StackPanel>
+            </DataTemplate>
+            </ListBox.ItemTemplate>
+           
+          </ListBox>
+
+        </StackPanel>
+      </SplitView.Pane>
+      <SplitView.Content>
+        <Border CornerRadius="12 0 0 0"
+                Background="#2d2d2d">
+          <StackPanel>
+          <Border Background="Gray">
+            <TextBlock Margin="5" FontSize="24" HorizontalAlignment="Center" Text="Scorekeeper"/>
+          </Border>
+
+            <TransitioningContentControl Content="{Binding CurrentPage}"/>
+            
+        </StackPanel>
+        </Border>
+        
+      </SplitView.Content>
+
+    </SplitView>
+  
+</UserControl>
