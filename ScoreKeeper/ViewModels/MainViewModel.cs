@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using ScoreKeeper.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -8,41 +9,52 @@ namespace ScoreKeeper.ViewModels;
 
 public partial class MainViewModel : ViewModelBase
 {
-    
+    //split view pane is open
     [ObservableProperty]
     private bool _isPaneOpen = true;
 
     [ObservableProperty]
-    private int _isVisible = 1;
+    private ViewModelBase _currentPage;
 
-    [ObservableProperty]
-    private ViewModelBase _currentPage = new HomePageViewModel();
+    public ObservableCollection<string> Players { get; } = [];
 
+    public ObservableCollection<Game> Games { get; } = [];
+
+    public MainViewModel()
+    {
+        OpenPlayers();
+    }
+
+    //trigger split view pane open/close
     [RelayCommand]
     private void TriggerPane()
     {
         IsPaneOpen = !IsPaneOpen;
-        if (IsVisible == 1) IsVisible = 0; else IsVisible = 1;
     }
-    [ObservableProperty]
-    private ListItemTemplate _selectedListItem;
 
-    partial void OnSelectedListItemChanged(ListItemTemplate? value)
+    [RelayCommand]
+    private void OpenPlayers()
     {
-        if (value is null) return;
-        var instance = Activator.CreateInstance(value.ModelType);
-        if (instance is null) return;
-        CurrentPage = (ViewModelBase)instance;
+        CurrentPage = new PlayerListViewModel(Players);
     }
-    public ObservableCollection<ListItemTemplate> Items { get; } = new()
+    
+    [RelayCommand]
+    private void OpenGames()
     {
-        new ListItemTemplate(typeof(HomePageViewModel)),
-        new ListItemTemplate(typeof(AddGameViewModel))
-    };
+        CurrentPage = new HomePageViewModel(Games);
+    }
 
-    
+    [RelayCommand]
+    private void OpenAddGames()
+    {
+        CurrentPage = new AddGameViewModel(Players, Games, OpenSingleGame);
+    }
 
-
-    
+    [RelayCommand]
+    private void OpenSingleGame(Game game)
+    {
+        // TODO create SingleGameViewModel with DataGrid!
+        //CurrentPage = new SingleGameViewModel(game);
+    }
 }
 

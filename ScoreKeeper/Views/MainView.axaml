@@ -25,21 +25,10 @@
           <Button Command="{Binding TriggerPaneCommand}">
             <PathIcon Data="{StaticResource LineHorizontal3Regular}"/>
           </Button>
-          
-          <ListBox ItemsSource="{Binding Items}" 
-                   SelectedItem="{Binding SelectedListItem}"
-                   Opacity="{Binding IsVisible}">
-            <ListBox.ItemTemplate>
-            <DataTemplate DataType="{x:Type vm:ListItemTemplate}">
-              <StackPanel Spacing="15"
-                          Orientation="Horizontal">
-                <TextBlock Text="{Binding Label}"/>
-                
-              </StackPanel>
-            </DataTemplate>
-            </ListBox.ItemTemplate>
-           
-          </ListBox>
+
+          <Button Command="{Binding OpenAddGamesCommand}">Add Game</Button>
+          <Button Command="{Binding OpenPlayersCommand}">Players</Button>
+          <Button Command="{Binding OpenGamesCommand}">Previous Games</Button>
 
         </StackPanel>
       </SplitView.Pane>

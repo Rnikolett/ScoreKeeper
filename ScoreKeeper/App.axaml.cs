@@ -2,20 +2,23 @@
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
-
+using ScoreKeeper.Services;
 using ScoreKeeper.ViewModels;
 using ScoreKeeper.Views;
+using System.Threading.Tasks;
 
 namespace ScoreKeeper;
 
 public partial class App : Application
 {
+    private readonly MainViewModel _mainViewModel = new MainViewModel();
+
     public override void Initialize()
     {
         AvaloniaXamlLoader.Load(this);
     }
 
-    public override void OnFrameworkInitializationCompleted()
+    public override async void OnFrameworkInitializationCompleted()
     {
         // Line below is needed to remove Avalonia data validation.
         // Without this line you will get duplicate validations from both Avalonia and CT
@@ -25,17 +28,31 @@ public partial class App : Application
         {
             desktop.MainWindow = new MainWindow
             {
-                DataContext = new MainViewModel()
+                DataContext = _mainViewModel,
             };
         }
         else if (ApplicationLifetime is ISingleViewApplicationLifetime singleViewPlatform)
         {
             singleViewPlatform.MainView = new MainView
             {
-                DataContext = new MainViewModel()
+                DataContext = _mainViewModel,
             };
         }
 
+        await InitMainViewModelAsync();
+        
         base.OnFrameworkInitializationCompleted();
+    }
+
+    private async Task InitMainViewModelAsync()
+    {
+        var playersLoaded = await FileService.LoadPlayers();
+        if (playersLoaded != null)
+        {
+            foreach (string player in playersLoaded) 
+            {
+                _mainViewModel.Players.Add(player);
+            }
+        }
     }
 }

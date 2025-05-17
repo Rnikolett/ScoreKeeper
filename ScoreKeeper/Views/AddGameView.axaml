@@ -1,51 +1,41 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:ScoreKeeper.ViewModels"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="ScoreKeeper.Views.AddGameView">
+             x:Class="ScoreKeeper.Views.AddGameView"
+             x:DataType="vm:AddGameViewModel">
 
   <StackPanel Background="white">
-    <Grid Background="White" 
-          Height="40"
-          ColumnDefinitions="*, *, *">
+    <TextBlock HorizontalAlignment="Left"
+               VerticalAlignment="Center">
+      Játékosok:
+    </TextBlock>
+
+    <ItemsControl ItemsSource="{Binding CheckablePlayers}">
+      <ItemsControl.ItemTemplate>
+        <DataTemplate>
+          <CheckBox Content="{Binding Name}"
+                    IsChecked="{Binding IsChecked}"/>
+        </DataTemplate>
+      </ItemsControl.ItemTemplate>
+    </ItemsControl>
+
+    <Grid ColumnDefinitions="Auto, Auto">
       <TextBlock Grid.Column="0"
                  HorizontalAlignment="Left"
-                 VerticalAlignment="Center"> Játékosok:  </TextBlock>
-      <TextBox Grid.Column="0" Width=""></TextBox>
-      
-      <TextBlock Grid.Column="1"
-                 HorizontalAlignment="Left"
-                 VerticalAlignment="Center"> Körök száma: </TextBlock>
+                 VerticalAlignment="Center"
+                 Text="Körök száma: "/>
       <NumericUpDown Grid.Column="1"
                      HorizontalAlignment="Right"
                      Width="140"
                      Minimum="1"
                      FormatString="0"
-                     Margin="0 0 10 0"></NumericUpDown>
-      
-      <TextBlock Grid.Column="2"
-                 HorizontalAlignment="Left"
-                 VerticalAlignment="Center"> Pontozás típusa: </TextBlock>
+                     Margin="0 0 10 0"
+                     Text="{Binding CountRounds}"/>
     </Grid>
-    <Button>create</Button>
-    
-    <DataGrid x:Name="Game"
-              IsReadOnly="False"
-              ItemsSource="{Binding Rounds}"
-              GridLinesVisibility="All"
-              AutoGenerateColumns="False"
-              BorderThickness="1"
-              BorderBrush="Black"
-              Background="White"
-              Width="600"
-              HorizontalAlignment="Center"
-              CanUserReorderColumns="False"
-              CanUserSortColumns="False"
-              >
-      <DataGrid.Columns >
-        <DataGridTextColumn IsReadOnly="True" Header="Round" Binding="{Binding RoundIndex}"></DataGridTextColumn>
-      </DataGrid.Columns>
-    </DataGrid>
+
+    <Button Command="{Binding CreateGameCommand}">create</Button>
   </StackPanel>
 </UserControl>

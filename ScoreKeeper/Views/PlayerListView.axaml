@@ -1,0 +1,46 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:ScoreKeeper.ViewModels"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="ScoreKeeper.Views.PlayerListView"
+             x:DataType="vm:PlayerListViewModel">
+  
+  <StackPanel x:Name="Root">
+    <TextBox Text="{Binding NewPlayer}"
+             Watermark="Add new player"
+             Width="300"
+             HorizontalAlignment="Left"
+             Grid.Column="0">
+      <TextBox.InnerRightContent>
+        <Button Grid.Column="1"
+          Command="{Binding AddPlayerCommand}"
+          Width="70"
+          Height="30"
+          Margin="10 0 0 0"
+          Content="Add"/>
+      </TextBox.InnerRightContent>
+      <TextBox.KeyBindings>
+        <KeyBinding Gesture="Enter" Command="{Binding AddPlayerCommand}"/>
+      </TextBox.KeyBindings>
+    </TextBox>
+
+    <ItemsControl ItemsSource="{Binding Players}">
+      <ItemsControl.ItemTemplate>
+        <DataTemplate>
+          <Grid ColumnDefinitions="*, Auto">
+            <TextBlock Text="{Binding .}"/>
+
+            <Button Grid.Column="1"
+                    Content="Delete"
+                    Command="{Binding #Root.((vm:PlayerListViewModel)DataContext).RemovePlayerCommand}"
+                    CommandParameter="{Binding .}"/>
+          </Grid>
+        </DataTemplate>
+      </ItemsControl.ItemTemplate>
+    </ItemsControl>
+    <Button Command="{Binding SavePlayersCommand}">Save</Button>
+  </StackPanel>
+
+</UserControl>

@@ -4,16 +4,13 @@ namespace ScoreKeeper.ViewModels
 {
     public class ListItemTemplate
     {
-        
-            public string Label { get; }
-            public Type ModelType { get; }
-            public ListItemTemplate(Type type)
-            {
+        public string Label { get; }
+        public Type ModelType { get; }
 
-                ModelType = type;
-                Label = type.Name.Replace("ViewModel", "");
-            
-            }
-     }
-    
+        public ListItemTemplate(Type type)
+        {
+            ModelType = type;
+            Label = type.Name.Replace("ViewModel", "");
+        }
+    }
 }

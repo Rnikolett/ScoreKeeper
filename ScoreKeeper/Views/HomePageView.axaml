@@ -2,12 +2,29 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:vm="clr-namespace:ScoreKeeper.ViewModels"
+             xmlns:vm="using:ScoreKeeper.ViewModels"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:DataType="vm:HomePageViewModel"
              x:CompileBindings="True"
              x:Class="ScoreKeeper.Views.HomePageView">
-            
-             
+
+  <StackPanel>
+    <ItemsControl ItemsSource="{Binding Games}">
+      <ItemsControl.ItemTemplate>
+        <DataTemplate>
+          <Grid ColumnDefinitions="*, 2*, 2*, auto">
+            <TextBlock Text="{Binding Date}"/>
+            <TextBlock Grid.Column="1"
+                       Text="{Binding Title}"/>
+            <TextBlock Grid.Column="2"
+                       Text="{Binding Players}"/>
+            <TextBlock Grid.Column="3">
+              ICONS
+            </TextBlock>
+          </Grid>
+        </DataTemplate>
+      </ItemsControl.ItemTemplate>
+    </ItemsControl>
+  </StackPanel>
  
 </UserControl>
