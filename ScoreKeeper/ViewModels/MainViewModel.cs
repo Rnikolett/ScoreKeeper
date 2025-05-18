@@ -52,17 +52,21 @@ public partial class MainViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    private async void OpenSingleGame(Game game)
+    private void OpenSingleGame(Game game)
     {
         if (!Games.Contains(game))
         {
             Games.Add(game);
-            await FileService.SaveGames(Games);
+            SaveGames();
         }
 
-        CurrentPage = new SingleGameViewModel(game);
+        CurrentPage = new SingleGameViewModel(game, SaveGames);
     }
 
+    private async void SaveGames()
+    {
+        await FileService.SaveGames(Games);
+    }
     // TODO Disable buttons for active Views
     // eg.: you shoudn't switch to previous games when you're already in that page, currently it's possible which results in reconstructing the viewModel
 }

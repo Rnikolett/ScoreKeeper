@@ -3,23 +3,31 @@ using CommunityToolkit.Mvvm.Input;
 using ScoreKeeper.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Security.Cryptography.X509Certificates;
 
 namespace ScoreKeeper.ViewModels
 {
     public partial class SingleGameViewModel : ViewModelBase
     {
+        private readonly Action _saveGames;
+
         [ObservableProperty]
         private Game _game;
 
-        public SingleGameViewModel(Game game)
+
+        public SingleGameViewModel(Game game, Action saveGames)
         {
             Game = game;
+            _saveGames = saveGames;
         }
 
-        // TODO save game -> call from MainView to save all game to json
+        [RelayCommand]
+        private void SaveGames()
+        {
+            _saveGames.Invoke();
+        }
 
-        
-        
         // TODO display summary line -> separate grid?
         
         // TODO Add new round

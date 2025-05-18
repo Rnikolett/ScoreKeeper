@@ -26,6 +26,7 @@ namespace ScoreKeeper.ViewModels
 
         public ObservableCollection<Round> Rounds { get; } = [];
 
+
         public ObservableCollection<CheckablePlayer> CheckablePlayers { get; }
 
         public AddGameViewModel(
@@ -41,8 +42,7 @@ namespace ScoreKeeper.ViewModels
         private void CreateGame()
         {
             var players = CheckablePlayers.Where(p => p.IsChecked).Select(p => p.Name);
-            var playerCount = CheckablePlayers.Where(p => p.IsChecked).Select(p => p.Name).Count();
-            if (playerCount > 0)
+            if (players.Any())
             {
                 for (int i = 0; i < CountRounds; i++)
                 {
@@ -53,17 +53,15 @@ namespace ScoreKeeper.ViewModels
 
                 _openGame.Invoke(newGame);
             }
-            else ErrorMessage = "Please choose one or more Player";
-            
+            else
+            {
+                ErrorMessage = "Please choose one or more Player";
+            }
         }
 
         private bool CanCreateGame()
         {
-            if (CountRounds.HasValue && Title is not null && Title.Length >= 3)
-            {
-                return true;
-            }
-            else return false;
+            return CountRounds.HasValue && !string.IsNullOrWhiteSpace(Title) && Title.Length >= 3;
         }
     }
 

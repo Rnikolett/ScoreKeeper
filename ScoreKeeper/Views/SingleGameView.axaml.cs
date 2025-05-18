@@ -1,6 +1,9 @@
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Data;
+using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
+using ScoreKeeper.ViewModels;
 
 namespace ScoreKeeper.Views;
 
@@ -11,24 +14,23 @@ public partial class SingleGameView : UserControl
         InitializeComponent();
     }
 
-    // TODO move to SingleGameView.axaml.cs
+    protected override void OnLoaded(RoutedEventArgs e)
+    {
+        base.OnLoaded(e);
 
+        if (Game.DataContext is SingleGameViewModel viewModel)
+        {
+            foreach (var player in viewModel.Game.PlayersList) 
+            {
+                Game.Columns.Add(new DataGridTextColumn()
+                {
+                    Header = player,
+                    Binding = new Binding("RoundData[" + player + "]"),
+                    MaxWidth = 100,
+                });
+            }
+        }
+    }
     // TODO create DataGrid with dynamic columns in code-behind (SingleGameView.axaml.cs)
     // Diable sorting -> round number should always determine row order!
-
-    //if (Game.DataContext is AddGameViewModel viewModel)
-    //{
-    //    var Players = viewModel.Rounds.First().RoundData.Keys;
-
-    //    foreach (var player in Players)
-    //    {
-    //        Game.Columns.Add(new DataGridTextColumn()
-    //        {
-    //            Header = player,
-    //            Binding = new Binding("RoundData[" + player + "]"),
-    //            MaxWidth = 100
-    //        });
-    //    }
-    //}
-
 }

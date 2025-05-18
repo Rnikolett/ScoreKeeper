@@ -6,5 +6,17 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="ScoreKeeper.Views.SingleGameView"
              x:DataType="vm:SingleGameViewModel">
-  Single Game View
+  <StackPanel>
+    <DataGrid x:Name="Game"
+              ItemsSource="{Binding Game.Rounds}"
+              IsReadOnly="False">
+      
+      <DataGrid.Columns>
+        <DataGridTextColumn Header="Round" Binding="{Binding RoundIndex}"/>
+      </DataGrid.Columns>
+      
+    </DataGrid>
+    
+    <Button Command="{Binding SaveGamesCommand}">Save</Button>
+  </StackPanel>
 </UserControl>
