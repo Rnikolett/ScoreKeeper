@@ -9,10 +9,24 @@
              x:Class="ScoreKeeper.Views.HomePageView">
 
   <StackPanel x:Name="Root">
+    <Grid ColumnDefinitions="*, 2*, 2*, Auto"
+          Width="700"
+          HorizontalAlignment="Center">
+      <TextBlock Grid.Column="0"
+                 HorizontalAlignment="Center">Dátum</TextBlock>
+      <TextBlock Grid.Column="1"
+                 HorizontalAlignment="Center">Játék Elnevezése</TextBlock>
+      <TextBlock Grid.Column="2"
+                 HorizontalAlignment="Center">Játékosok</TextBlock>
+      <TextBlock Grid.Column="3"
+                 HorizontalAlignment="Center">Szerkesztés</TextBlock>
+    </Grid>
     <ItemsControl ItemsSource="{Binding Games}">
       <ItemsControl.ItemTemplate>
         <DataTemplate>
-          <Grid ColumnDefinitions="*, 2*, 2*, Auto, Auto">
+          <Grid ColumnDefinitions="*, 2*, 2*, Auto, Auto"
+                Width="700"
+                HorizontalAlignment="Center">
             <TextBlock Text="{Binding Date}"/>
             
             <TextBlock Grid.Column="1"

@@ -31,6 +31,5 @@ namespace ScoreKeeper.ViewModels
 			await FileService.SaveGames(Games);
 		}
 
-		// TODO create table header in view
     }
 }
