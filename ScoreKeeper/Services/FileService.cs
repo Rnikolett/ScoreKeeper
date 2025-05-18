@@ -11,31 +11,29 @@ namespace ScoreKeeper.Services
 {
     public static class FileService
     {
-        private static string _playerFileName =
-            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Scorekepper", "Player.json");
+        private static readonly string _playerFileName =
+            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "ScoreKeeper", "Player.json");
 
-        private static string _gamesFileName =
-            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Scorekepper", "Games.json");
+        private static readonly string _gamesFileName =
+            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "ScoreKeeper", "Games.json");
+
+        private static readonly JsonSerializerOptions _options = new() { IncludeFields = true, IgnoreReadOnlyProperties = true };
 
         #region Players
         public static async Task SavePlayers(IEnumerable<string> players)
         {
             Directory.CreateDirectory(Path.GetDirectoryName(_playerFileName)!);
 
-            using (var fs = File.Create(_playerFileName))
-            {
-                await JsonSerializer.SerializeAsync(fs, players);
-            }
+            using var fs = File.Create(_playerFileName);
+            await JsonSerializer.SerializeAsync(fs, players);
         }
 
         public static async Task<IEnumerable<string>?> LoadPlayers()
         {
             try
             {
-                using (var fs = File.OpenRead(_playerFileName))
-                {
-                    return await JsonSerializer.DeserializeAsync<List<string>>(fs);
-                }
+                using var fs = File.OpenRead(_playerFileName);
+                return await JsonSerializer.DeserializeAsync<List<string>>(fs, _options);
             }
             catch (Exception e) when (e is FileNotFoundException || e is DirectoryNotFoundException)
             {
@@ -49,20 +47,16 @@ namespace ScoreKeeper.Services
         {
             Directory.CreateDirectory(Path.GetDirectoryName(_gamesFileName)!);
 
-            using (var fs = File.Create(_gamesFileName))
-            {
-                await JsonSerializer.SerializeAsync(fs, games);
-            }
+            using var fs = File.Create(_gamesFileName);
+            await JsonSerializer.SerializeAsync(fs, games);
         }
 
         public static async Task<IEnumerable<Game>?> LoadGames()
         {
             try
             {
-                using (var fs = File.OpenRead(_gamesFileName))
-                {
-                    return await JsonSerializer.DeserializeAsync<List<Game>>(fs);
-                }
+                using var fs = File.OpenRead(_gamesFileName);
+                return await JsonSerializer.DeserializeAsync<List<Game>>(fs, _options);
             }
             catch (Exception e) when (e is FileNotFoundException || e is DirectoryNotFoundException)
             {

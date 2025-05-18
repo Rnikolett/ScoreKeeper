@@ -7,7 +7,9 @@ namespace ScoreKeeper
 {
     internal class ViewLocator : IDataTemplate
     {
+#pragma warning disable CS8767 // Nullability of reference types in type of parameter doesn't match implicitly implemented member (possibly because of nullability attributes).
         public Control Build(object data)
+#pragma warning restore CS8767 // Nullability of reference types in type of parameter doesn't match implicitly implemented member (possibly because of nullability attributes).
         {
             if (data is null)
             {
@@ -27,7 +29,9 @@ namespace ScoreKeeper
             }
         }
 
+#pragma warning disable CS8767 // Nullability of reference types in type of parameter doesn't match implicitly implemented member (possibly because of nullability attributes).
         public bool Match(object data)
+#pragma warning restore CS8767 // Nullability of reference types in type of parameter doesn't match implicitly implemented member (possibly because of nullability attributes).
         {
             return data is ViewModelBase;
         }

@@ -1,14 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ScoreKeeper.Models
 {
-    public class Round(int index, IEnumerable<string> players)
+    public class Round
     {
-        public int RoundIndex { get; set; } = index;
-        public Dictionary<string, int> RoundData { get; set; } = players.ToDictionary(p => p, p => 0);
+        public int RoundIndex { get; set; }
+        public Dictionary<string, int> RoundData { get; set; }
+
+        public Round()
+        {
+            RoundIndex = 0;
+            RoundData = [];
+        }
+
+        public Round(int index, IEnumerable<string> players)
+        {
+            RoundIndex = index;
+            RoundData = players.ToDictionary(p => p, p => 0);
+        }
     }
 }

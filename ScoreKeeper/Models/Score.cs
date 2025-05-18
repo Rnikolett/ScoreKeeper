@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace ScoreKeeper.Models
 {
+    // TODO delete this class/file, not used anymore
+    [Obsolete("Old class")]
     public class Score(string player, int round, int playerScore)
     {
         public string Player { get; set; } = player;

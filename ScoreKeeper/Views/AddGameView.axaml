@@ -8,20 +8,14 @@
              x:DataType="vm:AddGameViewModel">
 
   <StackPanel Background="white">
-    <TextBlock HorizontalAlignment="Left"
-               VerticalAlignment="Center">
-      Játékosok:
-    </TextBlock>
-
-    <ItemsControl ItemsSource="{Binding CheckablePlayers}">
-      <ItemsControl.ItemTemplate>
-        <DataTemplate>
-          <CheckBox Content="{Binding Name}"
-                    IsChecked="{Binding IsChecked}"/>
-        </DataTemplate>
-      </ItemsControl.ItemTemplate>
-    </ItemsControl>
-
+    <Grid ColumnDefinitions="auto, auto">
+      <TextBlock Text="Játék elnevezése: "
+                 Grid.Column="0"/>
+      <TextBox Grid.Column="1"
+               Text="{Binding Title}"/>
+      
+    </Grid>
+    
     <Grid ColumnDefinitions="Auto, Auto">
       <TextBlock Grid.Column="0"
                  HorizontalAlignment="Left"
@@ -35,6 +29,20 @@
                      Margin="0 0 10 0"
                      Text="{Binding CountRounds}"/>
     </Grid>
+    
+    <TextBlock HorizontalAlignment="Left"
+               VerticalAlignment="Center">
+      Játékosok:
+    </TextBlock>
+
+    <ItemsControl ItemsSource="{Binding CheckablePlayers}">
+      <ItemsControl.ItemTemplate>
+        <DataTemplate>
+          <CheckBox Content="{Binding Name}"
+                    IsChecked="{Binding IsChecked}"/>
+        </DataTemplate>
+      </ItemsControl.ItemTemplate>
+    </ItemsControl>
 
     <Button Command="{Binding CreateGameCommand}">create</Button>
   </StackPanel>

@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using ScoreKeeper.Models;
+using ScoreKeeper.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -14,7 +15,7 @@ public partial class MainViewModel : ViewModelBase
     private bool _isPaneOpen = true;
 
     [ObservableProperty]
-    private ViewModelBase _currentPage;
+    private ViewModelBase _currentPage = null!;
 
     public ObservableCollection<string> Players { get; } = [];
 
@@ -41,20 +42,28 @@ public partial class MainViewModel : ViewModelBase
     [RelayCommand]
     private void OpenGames()
     {
-        CurrentPage = new HomePageViewModel(Games);
+        CurrentPage = new HomePageViewModel(Games, OpenSingleGame);
     }
 
     [RelayCommand]
     private void OpenAddGames()
     {
-        CurrentPage = new AddGameViewModel(Players, Games, OpenSingleGame);
+        CurrentPage = new AddGameViewModel(Players, OpenSingleGame);
     }
 
     [RelayCommand]
-    private void OpenSingleGame(Game game)
+    private async void OpenSingleGame(Game game)
     {
-        // TODO create SingleGameViewModel with DataGrid!
-        //CurrentPage = new SingleGameViewModel(game);
+        if (!Games.Contains(game))
+        {
+            Games.Add(game);
+            await FileService.SaveGames(Games);
+        }
+
+        CurrentPage = new SingleGameViewModel(game);
     }
+
+    // TODO Disable buttons for active Views
+    // eg.: you shoudn't switch to previous games when you're already in that page, currently it's possible which results in reconstructing the viewModel
 }
 

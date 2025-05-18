@@ -11,7 +11,7 @@ namespace ScoreKeeper;
 
 public partial class App : Application
 {
-    private readonly MainViewModel _mainViewModel = new MainViewModel();
+    private readonly MainViewModel _mainViewModel = new();
 
     public override void Initialize()
     {
@@ -52,6 +52,15 @@ public partial class App : Application
             foreach (string player in playersLoaded) 
             {
                 _mainViewModel.Players.Add(player);
+            }
+        }
+
+        var gamesLoaded = await FileService.LoadGames();
+        if (gamesLoaded != null)
+        {
+            foreach(var game in gamesLoaded)
+            {
+                _mainViewModel.Games.Add(game);
             }
         }
     }

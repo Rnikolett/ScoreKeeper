@@ -21,35 +21,30 @@ namespace ScoreKeeper.ViewModels
 
         public ObservableCollection<Round> Rounds { get; } = [];
         
-        public ObservableCollection<Game> Games { get; }
-
         public ObservableCollection<CheckablePlayer> CheckablePlayers { get; }
 
         public AddGameViewModel(
             ObservableCollection<string> players, 
-            ObservableCollection<Game> games,
             Action<Game> openGame
         )
         {
             _openGame = openGame;
             CheckablePlayers = [.. players.Select(p => new CheckablePlayer(p))];
-            Games = games;
         }
 
+        // TODO create canExecute
         [RelayCommand]
-        private async void CreateGame()
+        private void CreateGame()
         {
             var players = CheckablePlayers.Where(p => p.IsChecked).Select(p => p.Name);
             for (int i = 0; i < CountRounds; i++)
             {
                 Rounds.Add(new Round(i + 1, players));
             }
-            var g = new Game(DateTime.Now, Title!, Rounds);
-            Games.Add(g);
 
-            await FileService.SaveGames(Games);
-
-            _openGame.Invoke(g);
+            var newGame = new Game(DateTime.Now, Title!, Rounds);
+            
+            _openGame.Invoke(newGame);
         }
     }
 
