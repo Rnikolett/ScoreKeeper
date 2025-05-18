@@ -18,8 +18,7 @@ namespace ScoreKeeper.ViewModels
 
         // TODO save game -> call from MainView to save all game to json
 
-        // TODO create DataGrid with dynamic columns in code-behind (SingleGameView.axaml.cs)
-        // Diable sorting -> round number should always determine row order!
+        
         
         // TODO display summary line -> separate grid?
         

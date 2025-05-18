@@ -6,5 +6,5 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="ScoreKeeper.Views.SingleGameView"
              x:DataType="vm:SingleGameViewModel">
-  Welcome to Avalonia!
+  Single Game View
 </UserControl>

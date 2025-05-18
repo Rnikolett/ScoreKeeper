@@ -29,7 +29,10 @@
                      Margin="0 0 10 0"
                      Text="{Binding CountRounds}"/>
     </Grid>
-    
+    <TextBlock HorizontalAlignment="Left"
+               VerticalAlignment="Center"
+               Text="{Binding ErrorMessage}"
+               Foreground="Red"/>
     <TextBlock HorizontalAlignment="Left"
                VerticalAlignment="Center">
       Játékosok:

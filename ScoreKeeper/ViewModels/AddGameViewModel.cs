@@ -13,18 +13,23 @@ namespace ScoreKeeper.ViewModels
     {
         private readonly Action<Game> _openGame;
 
+        [NotifyCanExecuteChangedFor(nameof(CreateGameCommand))]
         [ObservableProperty]
         private string? _title;
 
         [ObservableProperty]
+        [NotifyCanExecuteChangedFor(nameof(CreateGameCommand))]
         private int? _countRounds;
 
+        [ObservableProperty]
+        private string? _errorMessage;
+
         public ObservableCollection<Round> Rounds { get; } = [];
-        
+
         public ObservableCollection<CheckablePlayer> CheckablePlayers { get; }
 
         public AddGameViewModel(
-            ObservableCollection<string> players, 
+            ObservableCollection<string> players,
             Action<Game> openGame
         )
         {
@@ -32,19 +37,33 @@ namespace ScoreKeeper.ViewModels
             CheckablePlayers = [.. players.Select(p => new CheckablePlayer(p))];
         }
 
-        // TODO create canExecute
-        [RelayCommand]
+        [RelayCommand(CanExecute = nameof(CanCreateGame))]
         private void CreateGame()
         {
             var players = CheckablePlayers.Where(p => p.IsChecked).Select(p => p.Name);
-            for (int i = 0; i < CountRounds; i++)
+            var playerCount = CheckablePlayers.Where(p => p.IsChecked).Select(p => p.Name).Count();
+            if (playerCount > 0)
             {
-                Rounds.Add(new Round(i + 1, players));
-            }
+                for (int i = 0; i < CountRounds; i++)
+                {
+                    Rounds.Add(new Round(i + 1, players));
+                }
 
-            var newGame = new Game(DateTime.Now, Title!, Rounds);
+                var newGame = new Game(DateTime.Now, Title!, Rounds);
+
+                _openGame.Invoke(newGame);
+            }
+            else ErrorMessage = "Please choose one or more Player";
             
-            _openGame.Invoke(newGame);
+        }
+
+        private bool CanCreateGame()
+        {
+            if (CountRounds.HasValue && Title is not null && Title.Length >= 3)
+            {
+                return true;
+            }
+            else return false;
         }
     }
 
