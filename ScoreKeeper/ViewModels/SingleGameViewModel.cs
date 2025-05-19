@@ -2,9 +2,8 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using ScoreKeeper.Models;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Security.Cryptography.X509Certificates;
+using System.ComponentModel;
 
 namespace ScoreKeeper.ViewModels
 {
@@ -15,11 +14,18 @@ namespace ScoreKeeper.ViewModels
         [ObservableProperty]
         private Game _game;
 
+        public ObservableCollection<Round> ScoreSummary { get; }
 
         public SingleGameViewModel(Game game, Action saveGames)
         {
             Game = game;
             _saveGames = saveGames;
+            foreach (var round in Game.Rounds)
+            {
+                round.RoundData.PropertyChanged -= UpdateScoreSummary;
+                round.RoundData.PropertyChanged += UpdateScoreSummary;
+            }
+            ScoreSummary = [Game.GetScoreSummary()];
         }
 
         [RelayCommand]
@@ -28,22 +34,31 @@ namespace ScoreKeeper.ViewModels
             _saveGames.Invoke();
         }
 
-        public void CountScore()
+        [RelayCommand]
+        private void AddRound()
         {
-            int count = 0;
-            foreach (var player in Game.PlayersList)
+            var newRound = new Round(Game.Rounds.Count + 1, Game.PlayersList);
+            newRound.RoundData.PropertyChanged += UpdateScoreSummary;
+            Game.Rounds.Add(newRound);
+        }
+
+        [RelayCommand]
+        private void DeleteRound(Round roundToDelete)
+        {
+            var deletedIndex = roundToDelete.RoundIndex;
+            roundToDelete.RoundData.PropertyChanged -= UpdateScoreSummary;
+            Game.Rounds.Remove(roundToDelete);
+            
+            //Reindexing
+            for (int i = deletedIndex - 1; i < Game.Rounds.Count; i++)
             {
-                
+                Game.Rounds[i].RoundIndex--;
             }
         }
 
-        
-        
-        // TODO display summary line -> separate grid?
-        
-        // TODO Add new round
-
-        // TODO Delete existing round -> reindex rounds when deleting
-        // eg.: [1, 2, 3, 4, 5, 6] -> delete 4th -> [1, 2, 3, 4 (prevoiusly 5), 5 (previously 6)]
+        private void UpdateScoreSummary(object? sender, PropertyChangedEventArgs e)
+        {
+            ScoreSummary[0] = Game.GetScoreSummary();
+        }
     }
 }

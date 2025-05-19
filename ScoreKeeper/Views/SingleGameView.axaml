@@ -6,19 +6,41 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="ScoreKeeper.Views.SingleGameView"
              x:DataType="vm:SingleGameViewModel">
-  <StackPanel>
+  <StackPanel x:Name="Root">
     <DataGrid x:Name="Game"
               ItemsSource="{Binding Game.Rounds}"
-              IsReadOnly="False">
-      
+              IsReadOnly="False"
+              Height="400"
+              CanUserReorderColumns="False"
+              CanUserResizeColumns="False"
+              CanUserSortColumns="False">
+
       <DataGrid.Columns>
         <DataGridTextColumn Header="Round"
                             Binding="{Binding RoundIndex}"
                             IsReadOnly="True"/>
+        <DataGridTemplateColumn>
+          <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+              <Button Command="{Binding #Root.((vm:SingleGameViewModel)DataContext).DeleteRoundCommand}"
+                      CommandParameter="{Binding .}">
+                Delete
+              </Button>
+            </DataTemplate>
+          </DataGridTemplateColumn.CellTemplate>
+        </DataGridTemplateColumn>
       </DataGrid.Columns>
-      
+
     </DataGrid>
-    
+    <DataGrid x:Name="Score"
+              ItemsSource="{Binding ScoreSummary}"
+              IsReadOnly="True"
+              CanUserReorderColumns="False"
+              CanUserResizeColumns="False"
+              CanUserSortColumns="False">
+    </DataGrid>
+    <Button Command="{Binding AddRoundCommand}">Add Row</Button>
+
     <Button Command="{Binding SaveGamesCommand}">Save</Button>
   </StackPanel>
 </UserControl>

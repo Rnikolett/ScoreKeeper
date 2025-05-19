@@ -30,5 +30,14 @@ namespace ScoreKeeper.Models
             Title = title;
             Rounds = [.. rounds];
         }
+
+        public Round GetScoreSummary()
+        {
+            return new Round(
+                Rounds.SelectMany(r => r.RoundData)
+                    .GroupBy(rd => rd.Key)
+                    .ToDictionary(g => g.Key, g => g.Sum(rd => rd.Value))
+            );
+        }
     }
 }

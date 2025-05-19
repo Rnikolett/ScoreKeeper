@@ -1,13 +1,15 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text.Json.Serialization;
+﻿using Avalonia.Collections;
+using CommunityToolkit.Mvvm.ComponentModel;
+using System.Collections.Generic;
 
 namespace ScoreKeeper.Models
 {
-    public class Round
+    public partial class Round : ObservableObject
     {
-        public int RoundIndex { get; set; }
-        public Dictionary<string, int> RoundData { get; set; }
+        [ObservableProperty]
+        private int _roundIndex;
+        
+        public AvaloniaDictionary<string, int> RoundData { get; set; }
 
         public Round()
         {
@@ -15,10 +17,22 @@ namespace ScoreKeeper.Models
             RoundData = [];
         }
 
+        public Round(Dictionary<string, int> roundDict) : this() 
+        {
+            foreach (var dict in roundDict)
+            {
+                RoundData.Add(dict.Key, dict.Value);
+            }
+        }
+
         public Round(int index, IEnumerable<string> players)
         {
             RoundIndex = index;
-            RoundData = players.ToDictionary(p => p, p => 0);
+            RoundData = [];
+            foreach (var player in players)
+            {
+                RoundData.Add(player, 0);
+            }
         }
     }
 }

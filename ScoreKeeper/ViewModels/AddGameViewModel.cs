@@ -1,9 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using ScoreKeeper.Models;
-using ScoreKeeper.Services;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
@@ -25,7 +23,6 @@ namespace ScoreKeeper.ViewModels
         private string? _errorMessage;
 
         public ObservableCollection<Round> Rounds { get; } = [];
-
 
         public ObservableCollection<CheckablePlayer> CheckablePlayers { get; }
 

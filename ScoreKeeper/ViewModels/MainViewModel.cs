@@ -2,8 +2,6 @@
 using CommunityToolkit.Mvvm.Input;
 using ScoreKeeper.Models;
 using ScoreKeeper.Services;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace ScoreKeeper.ViewModels;
@@ -51,6 +49,7 @@ public partial class MainViewModel : ViewModelBase
     [RelayCommand]
     private void OpenGames()
     {
+        //previous games
         CurrentPage = new HomePageViewModel(Games, OpenSingleGame);
         SetTrue();
         IsHomePage = !IsHomePage;
@@ -72,15 +71,15 @@ public partial class MainViewModel : ViewModelBase
             Games.Add(game);
             SaveGames();
         }
-
+        SetTrue();
         CurrentPage = new SingleGameViewModel(game, SaveGames);
-
     }
 
     private async void SaveGames()
     {
         await FileService.SaveGames(Games);
     }
+
     private void SetTrue()
     {
         IsAddGame = true;
@@ -88,4 +87,3 @@ public partial class MainViewModel : ViewModelBase
         IsPlayerList = true;
     }
 }
-

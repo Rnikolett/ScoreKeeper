@@ -3,7 +3,6 @@ using ScoreKeeper.Models;
 using ScoreKeeper.Services;
 using System;
 using System.Collections.ObjectModel;
-using System.Threading.Tasks;
 
 namespace ScoreKeeper.ViewModels
 {
@@ -30,6 +29,5 @@ namespace ScoreKeeper.ViewModels
 			Games.Remove(game);
 			await FileService.SaveGames(Games);
 		}
-
     }
 }
