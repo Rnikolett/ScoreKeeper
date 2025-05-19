@@ -27,10 +27,12 @@ public partial class SingleGameView : UserControl
                     Header = player,
                     Binding = new Binding("RoundData[" + player + "]"),
                     MaxWidth = 100,
+                    CanUserSort = false,
+                    CanUserReorder = false,
+                    CanUserResize = false,
+                    
                 });
             }
         }
     }
-    // TODO create DataGrid with dynamic columns in code-behind (SingleGameView.axaml.cs)
-    // Diable sorting -> round number should always determine row order!
 }

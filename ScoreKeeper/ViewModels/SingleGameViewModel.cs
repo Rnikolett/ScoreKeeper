@@ -28,6 +28,17 @@ namespace ScoreKeeper.ViewModels
             _saveGames.Invoke();
         }
 
+        public void CountScore()
+        {
+            int count = 0;
+            foreach (var player in Game.PlayersList)
+            {
+                
+            }
+        }
+
+        
+        
         // TODO display summary line -> separate grid?
         
         // TODO Add new round

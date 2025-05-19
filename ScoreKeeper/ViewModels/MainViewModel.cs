@@ -15,6 +15,13 @@ public partial class MainViewModel : ViewModelBase
     private bool _isPaneOpen = true;
 
     [ObservableProperty]
+    private bool _isPlayerList = true;
+    [ObservableProperty]
+    private bool _isHomePage = true;
+    [ObservableProperty]
+    private bool _isAddGame = true;
+
+    [ObservableProperty]
     private ViewModelBase _currentPage = null!;
 
     public ObservableCollection<string> Players { get; } = [];
@@ -37,18 +44,24 @@ public partial class MainViewModel : ViewModelBase
     private void OpenPlayers()
     {
         CurrentPage = new PlayerListViewModel(Players);
+        SetTrue();
+        IsPlayerList = !IsPlayerList;
     }
-    
+
     [RelayCommand]
     private void OpenGames()
     {
         CurrentPage = new HomePageViewModel(Games, OpenSingleGame);
+        SetTrue();
+        IsHomePage = !IsHomePage;
     }
 
     [RelayCommand]
     private void OpenAddGames()
     {
         CurrentPage = new AddGameViewModel(Players, OpenSingleGame);
+        SetTrue();
+        IsAddGame = !IsAddGame;
     }
 
     [RelayCommand]
@@ -61,13 +74,18 @@ public partial class MainViewModel : ViewModelBase
         }
 
         CurrentPage = new SingleGameViewModel(game, SaveGames);
+
     }
 
     private async void SaveGames()
     {
         await FileService.SaveGames(Games);
     }
-    // TODO Disable buttons for active Views
-    // eg.: you shoudn't switch to previous games when you're already in that page, currently it's possible which results in reconstructing the viewModel
+    private void SetTrue()
+    {
+        IsAddGame = true;
+        IsHomePage = true;
+        IsPlayerList = true;
+    }
 }
 
