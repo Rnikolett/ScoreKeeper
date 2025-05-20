@@ -9,10 +9,11 @@
   
   <StackPanel Width="700"
               HorizontalAlignment="Center"
-              Margin="15">
+              VerticalAlignment="Center"
+              Margin="15 70 0 0">
 
     <Grid ColumnDefinitions="auto, auto">
-      <TextBlock Text="Játék elnevezése: "
+      <TextBlock Text="Game Title: "
                  Grid.Column="0"
                  FontWeight="Bold"
                  Margin="0 15 15 0"/>
@@ -27,12 +28,12 @@
                VerticalAlignment="Center"
                Text="{Binding ErrorMessage}"
                Foreground="Red"/>
+    
     <TextBlock HorizontalAlignment="Left"
                VerticalAlignment="Center"
                FontWeight="Bold"
-               Margin="0 15 0 15">
-      Játékosok:
-    </TextBlock>
+               Text="Players: "
+               Margin="0 15 0 15"/>
 
     <ItemsControl ItemsSource="{Binding CheckablePlayers}">
       <ItemsControl.ItemTemplate>
@@ -48,7 +49,7 @@
       <TextBlock Grid.Column="0"
                  HorizontalAlignment="Left"
                  VerticalAlignment="Center"
-                 Text="Körök száma: "
+                 Text="Number of rounds: "
                  FontWeight="Bold"
                  Margin="0 15 15 0"/>
       <NumericUpDown Grid.Column="1"

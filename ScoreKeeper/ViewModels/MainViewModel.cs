@@ -28,7 +28,7 @@ public partial class MainViewModel : ViewModelBase
 
     public MainViewModel()
     {
-        OpenPlayers();
+        OpenGames();
     }
 
     //trigger split view pane open/close

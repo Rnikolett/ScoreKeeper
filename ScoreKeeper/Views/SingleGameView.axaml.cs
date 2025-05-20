@@ -25,6 +25,7 @@ public partial class SingleGameView : UserControl
                     Header = player,
                     Binding = new Binding("RoundData[" + player + "]"),
                     MaxWidth = 100,
+                    MinWidth = 100,
                 });
                 Score.Columns.Add(new DataGridTextColumn()
                 {

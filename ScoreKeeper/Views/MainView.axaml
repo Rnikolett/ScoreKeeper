@@ -17,7 +17,9 @@
              OpenPaneLength="300"
              CompactPaneLength="40"
              DisplayMode="CompactInline"
-             PaneBackground="#2d2d2d">
+             PaneBackground="#D4F6FF"
+             BorderBrush="Black"
+             BorderThickness="2">
 
     <SplitView.Pane>
       <StackPanel Spacing="5"
@@ -26,24 +28,24 @@
           <PathIcon Data="{StaticResource LineHorizontal3Regular}"/>
         </Button>
 
-        <Button Command="{Binding OpenAddGamesCommand}"
-                Width="280"
-                Margin="0 5 0 5"
-                Background="Gray"
-                Foreground="White"
-                IsEnabled="{Binding IsAddGame}">Add Game</Button>
-        <Button Command="{Binding OpenPlayersCommand}"
-                Width="280"
-                Margin="0 5 0 5"
-                Foreground="White"
-                Background="Gray"
-                IsEnabled="{Binding IsPlayerList}">Players</Button>
         <Button Command="{Binding OpenGamesCommand}"
                 Width="280"
                 Margin="0 5 0 5"
-                Foreground="White"
-                Background="Gray"
+                Background="#C6E7FF"
                 IsEnabled="{Binding IsHomePage}">Previous Games</Button>
+        
+        <Button Command="{Binding OpenAddGamesCommand}"
+                Width="280"
+                Margin="0 5 0 5"
+                Background="#C6E7FF"
+                IsEnabled="{Binding IsAddGame}">Add Game</Button>
+        
+        <Button Command="{Binding OpenPlayersCommand}"
+                Width="280"
+                Margin="0 5 0 5"
+                Background="#C6E7FF"
+                IsEnabled="{Binding IsPlayerList}">Add Players</Button>
+        
 
       </StackPanel>
     </SplitView.Pane>
@@ -52,14 +54,15 @@
               Background="White">
         <StackPanel>
 
-          <Border Background="#2d2d2d">
+          <Border Background="#D4F6FF">
             <TextBlock Margin="5"
                        FontSize="24"
                        HorizontalAlignment="Center"
                        Text="Scorekeeper"/>
           </Border>
 
-          <TransitioningContentControl Content="{Binding CurrentPage}"/>
+          <TransitioningContentControl Content="{Binding CurrentPage}"
+                                       HorizontalAlignment="Center"/>
 
         </StackPanel>
       </Border>

@@ -7,15 +7,22 @@
              x:Class="ScoreKeeper.Views.PlayerListView"
              x:DataType="vm:PlayerListViewModel">
   
-  <StackPanel x:Name="Root">
+  <StackPanel x:Name="Root"
+              Margin="0 70 0 0"
+              Width="700">
+    
+      <TextBlock Text="Add New Player: "
+                 FontWeight="Bold"
+                 Margin="0 15 0 0"/>
+    
     <TextBox Text="{Binding NewPlayer}"
              Watermark="Add new player"
-             Width="300"
+             Width="500"
+             Margin="0 15 0 0"
              HorizontalAlignment="Left"
-             Grid.Column="0">
+             Grid.Column="1">
       <TextBox.InnerRightContent>
-        <Button Grid.Column="1"
-          Command="{Binding AddPlayerCommand}"
+        <Button Command="{Binding AddPlayerCommand}"
           Width="70"
           Height="30"
           Margin="10 0 0 0"
@@ -25,22 +32,33 @@
         <KeyBinding Gesture="Enter" Command="{Binding AddPlayerCommand}"/>
       </TextBox.KeyBindings>
     </TextBox>
-
-    <ItemsControl ItemsSource="{Binding Players}">
+    <ItemsControl ItemsSource="{Binding Players}"
+                  Margin="0 15 0 0"
+                  Width="700"
+                  MaxHeight="450"
+                  Grid.Row="1">
       <ItemsControl.ItemTemplate>
         <DataTemplate>
-          <Grid ColumnDefinitions="*, Auto">
-            <TextBlock Text="{Binding .}"/>
-
+          
+          <Grid ColumnDefinitions="100, Auto"
+                Width="160"
+                HorizontalAlignment="Left"
+                Margin="0 15 0 0"
+                Background="#FBFBFB">
+            <TextBlock Text="{Binding .}"
+                       Focusable="True"
+                       Grid.Column="0"/>
             <Button Grid.Column="1"
                     Content="Delete"
+                    HorizontalAlignment="Right"
                     Command="{Binding #Root.((vm:PlayerListViewModel)DataContext).RemovePlayerCommand}"
                     CommandParameter="{Binding .}"/>
           </Grid>
         </DataTemplate>
       </ItemsControl.ItemTemplate>
     </ItemsControl>
-    <Button Command="{Binding SavePlayersCommand}">Save</Button>
+    <Button Command="{Binding SavePlayersCommand}"
+            Margin="0 15 0 0">Save</Button>
   </StackPanel>
 
 </UserControl>
